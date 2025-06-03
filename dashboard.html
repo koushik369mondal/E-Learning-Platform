@@ -1,0 +1,26 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Optional -->
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <span id="username">User</span>!</h1>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <script>
+        // Fetch session data (optional enhancement if needed)
+        fetch("/session-data")
+            .then(res => res.json())
+            .then(data => {
+                if (data.username) {
+                    document.getElementById("username").innerText = data.username;
+                }
+            });
+    </script>
+</body>
+</html>
