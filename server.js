@@ -26,6 +26,9 @@ const signupSchema = new mongoose.Schema({
 
 const SignupUser = mongoose.model("signupusers", signupSchema);
 
+// Simple session store (not for production)
+let loggedInUser = null;
+
 // Routes
 app.get("/signup", (req, res) => {
     res.sendFile(path.join(__dirname, "signup.html"));
@@ -38,10 +41,42 @@ app.post("/signup", async (req, res) => {
         const newUser = new SignupUser({ username, email, password });
         await newUser.save();
         console.log("New Signup:", newUser);
-        res.send("Signup Successful!");
+        res.send("Signup Successful! <a href='/login.html'>Login here</a>");
     } catch (err) {
         console.error("Error saving user:", err);
         res.status(500).send("Internal Server Error");
+    }
+});
+
+// Handle login
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await SignupUser.findOne({ email });
+
+        if (!user) {
+            return res.send("No user found with this email. <a href='/signup.html'>Signup here</a>");
+        }
+
+        if (user.password !== password) {
+            return res.send("Incorrect password. <a href='/login.html'>Try again</a>");
+        }
+
+        loggedInUser = user.username; // Store logged-in user's name
+        res.redirect("/");
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// Root route - show logged-in user
+app.get("/", (req, res) => {
+    if (loggedInUser) {
+        res.send(`<h2>Welcome, ${loggedInUser}!</h2><p>You are logged in.</p>`);
+    } else {
+        res.sendFile(path.join(__dirname, "index.html"));
     }
 });
 
