@@ -9,13 +9,10 @@ const app = express();
 app.use(express.static(__dirname)); // Serve static files (CSS, JS, images)
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/secretcoder");
-const db = mongoose.connection;
-
-db.once("open", () => {
-    console.log("MongoDB Connected Successfully for Signup");
-});
+// MongoDB Atlas Connection
+mongoose.connect("mongodb+srv://koushik369mondal:Koushik%40123@cluster0.pqgt4c7.mongodb.net/secretcoder?retryWrites=true&w=majority&appName=Cluster0")
+.then(() => console.log("MongoDB Atlas Connected Successfully for Signup"))
+.catch((err) => console.error("MongoDB Connection Error:", err));
 
 // Mongoose Schema & Model
 const signupSchema = new mongoose.Schema({
@@ -63,7 +60,7 @@ app.post("/login", async (req, res) => {
             return res.send("Incorrect password. <a href='/login.html'>Try again</a>");
         }
 
-        loggedInUser = user.username; // Store logged-in user's name
+        loggedInUser = user.username;
         res.redirect("/");
     } catch (err) {
         console.error("Login error:", err);
