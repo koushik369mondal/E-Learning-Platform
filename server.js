@@ -38,7 +38,7 @@ app.post("/signup", async (req, res) => {
         const newUser = new SignupUser({ username, email, password });
         await newUser.save();
         console.log("New Signup:", newUser);
-        res.send("Signup Successful! <a href='/login.html'>Login here</a>");
+        res.redirect("/login.html"); // Redirect to login.html after successful signup
     } catch (err) {
         console.error("Error saving user:", err);
         res.status(500).send("Internal Server Error");
