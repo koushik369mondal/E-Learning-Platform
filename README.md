@@ -3,7 +3,7 @@
 A collaborative web-based platform where students can **upload videos, blogs, and other educational content**, helping peers learn and grow together. This project was built as part of a mini project submission for the Database Management System Lab.
 
 ## 🌐 Live Preview
-🔗 [Click here to view the live site](https://e-learning-platform-xi-eight.vercel.app/)
+🔗 [Click here to view the live site]( https://e-learning-platform-silk.vercel.app/)
 
 ## 📌 Features
 - Upload and share **videos** and **blogs**
